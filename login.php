@@ -6,19 +6,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
-    $stmt->bindParam(':username', $username);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $conn->prepare("SELECT * FROM utilizadores WHERE username = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['is_editor'] = $user['is_editor'];
-        header("Location: index.php");
-        exit();
-    } else {
-        $erro = "Utilizador ou senha inválidos.";
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['is_editor'] = $user['is_editor'];
+            header("Location: index.php");
+            exit();
+        } else {
+            $erro = "Utilizador ou senha inválidos.";
+        }
+    } catch (PDOException $e) {
+        $erro = "Erro ao processar o login: " . $e->getMessage();
     }
 }
 ?>
@@ -33,15 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Novo Header -->
+    <!-- Header -->
     <header class="header">
         <div class="header-wrapper">
-            <!-- Título e Subtítulo -->
             <div class="header-branding">
                 <h1 class="header-title">Biblioteca de IAs</h1>
                 <p class="header-subtitle">Explore o Futuro da Inteligência Artificial</p>
             </div>
-            <!-- Seletor de Temas -->
             <div class="header-actions">
                 <div class="header-controls">
                     <select id="theme-selector" class="theme-selector">
@@ -71,6 +73,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <input type="submit" value="Entrar">
             </form>
+            <div class="register-link">
+                <p>Não tem conta? <a href="registrar.php" class="register-btn">Registrar</a></p>
+            </div>
         </div>
     </div>
 

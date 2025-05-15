@@ -4,33 +4,13 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Temas */
-body.light {
-    background-color: #f0f4f8;
-    color: #1e293b;
-}
-
-body.dark {
-    background-color: #1a202c;
-    color: #e2e8f0;
-}
-
-body.cosmic-blue {
-    background-color: #0d1b2a;
-    color: #a5b4fc;
-}
-
-body.forest-green {
-    background-color: #1b4332;
-    color: #a7f3d0;
+/* Ajuste para evitar que o body force o conteúdo ao centro vertical */
+body {
+    display: block; /* Removido o flex para o header ficar no topo */
+    min-height: 100vh;
 }
 
 /* Animações */
@@ -42,45 +22,498 @@ body.forest-green {
 /* Header */
 .header {
     width: 100%;
-    padding: 30px 0;
+    padding: 20px 0; /* Reduzido o padding para menos espaço */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     animation: fadeIn 0.5s ease-in;
+    position: fixed; /* Fixa o header no topo */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Temas */
+body.light {
+    background-color: #f0f4f8;
+    color: #1e293b;
 }
 
 body.light .header {
     background: linear-gradient(90deg, #60a5fa, #93c5fd);
 }
 
+body.light .search-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.light .search-container input[type="text"],
+body.light .search-container select {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+body.light .search-btn {
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+body.light .search-btn:hover {
+    background: #2563eb;
+}
+
+body.light .clear-btn {
+    background: #a0aec0;
+    color: #ffffff;
+}
+
+body.light .clear-btn:hover {
+    background: #718096;
+}
+
+body.light .theme-selector {
+    background: #e0f2fe;
+    color: #1e293b;
+}
+
+body.light .logout-btn {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+body.light .logout-btn:hover {
+    background: #dc2626;
+}
+
+body.light .nome-ia {
+    background: #1e293b;
+    color: #ffffff;
+}
+
+body.light .gallery-item {
+    background: #ffffff;
+}
+
+body.light .form-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.light .form-container input[type="text"],
+body.light .form-container input[type="password"],
+body.light .form-container select,
+body.light .form-container textarea {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+body.light .form-container button,
+body.light .form-container input[type="submit"],
+body.light .form-container a.register-btn {
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+body.light .form-container button:hover,
+body.light .form-container input[type="submit"]:hover,
+body.light .form-container a.register-btn:hover {
+    background: #2563eb;
+}
+
+body.light .table-container table {
+    background: #ffffff;
+}
+
+body.light .table-container th {
+    background: #60a5fa;
+    color: #ffffff;
+}
+
+body.light .table-container td {
+    background: #f8fafc;
+}
+
+body.light .action-btn.edit {
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+body.light .action-btn.edit:hover {
+    background: #2563eb;
+}
+
+body.light .action-btn.delete {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+body.light .action-btn.delete:hover {
+    background: #dc2626;
+}
+
+body.dark {
+    background-color: #1a202c;
+    color: #e2e8f0;
+}
+
 body.dark .header {
     background: linear-gradient(90deg, #2d3748, #4a5568);
+}
+
+body.dark .search-container {
+    background: rgba(45, 55, 72, 0.95);
+}
+
+body.dark .search-container input[type="text"],
+body.dark .search-container select {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+body.dark .search-btn {
+    background: #60a5fa;
+    color: #1e293b;
+}
+
+body.dark .search-btn:hover {
+    background: #93c5fd;
+}
+
+body.dark .clear-btn {
+    background: #718096;
+    color: #e2e8f0;
+}
+
+body.dark .clear-btn:hover {
+    background: #a0aec0;
+}
+
+body.dark .theme-selector {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+body.dark .logout-btn {
+    background: #f87171;
+    color: #1e293b;
+}
+
+body.dark .logout-btn:hover {
+    background: #ef4444;
+}
+
+body.dark .nome-ia {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+body.dark .gallery-item {
+    background: #2d3748;
+}
+
+body.dark .form-container {
+    background: rgba(45, 55, 72, 0.95);
+}
+
+body.dark .form-container input[type="text"],
+body.dark .form-container input[type="password"],
+body.dark .form-container select,
+body.dark .form-container textarea {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+body.dark .form-container button,
+body.dark .form-container input[type="submit"],
+body.dark .form-container a.register-btn {
+    background: #60a5fa;
+    color: #1e293b;
+}
+
+body.dark .form-container button:hover,
+body.dark .form-container input[type="submit"]:hover,
+body.dark .form-container a.register-btn:hover {
+    background: #93c5fd;
+}
+
+body.dark .table-container table {
+    background: #2d3748;
+}
+
+body.dark .table-container th {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+body.dark .table-container td {
+    background: #1a202c;
+}
+
+body.dark .action-btn.edit {
+    background: #60a5fa;
+    color: #1e293b;
+}
+
+body.dark .action-btn.edit:hover {
+    background: #93c5fd;
+}
+
+body.dark .action-btn.delete {
+    background: #f87171;
+    color: #1e293b;
+}
+
+body.dark .action-btn.delete:hover {
+    background: #ef4444;
+}
+
+body.cosmic-blue {
+    background-color: #0d1b2a;
+    color: #a5b4fc;
 }
 
 body.cosmic-blue .header {
     background: linear-gradient(90deg, #1e3a8a, #6b7280);
 }
 
+body.cosmic-blue .search-container {
+    background: rgba(30, 58, 138, 0.95);
+}
+
+body.cosmic-blue .search-container input[type="text"],
+body.cosmic-blue .search-container select {
+    background: #3b82f6;
+    color: #e0f2fe;
+}
+
+body.cosmic-blue .search-btn {
+    background: #a5b4fc;
+    color: #1e3a8a;
+}
+
+body.cosmic-blue .search-btn:hover {
+    background: #c7d2fe;
+}
+
+body.cosmic-blue .clear-btn {
+    background: #6b7280;
+    color: #a5b4fc;
+}
+
+body.cosmic-blue .clear-btn:hover {
+    background: #9ca3af;
+}
+
+body.cosmic-blue .theme-selector {
+    background: #1e3a8a;
+    color: #a5b4fc;
+}
+
+body.cosmic-blue .logout-btn {
+    background: #f472b6;
+    color: #1e3a8a;
+}
+
+body.cosmic-blue .logout-btn:hover {
+    background: #f9a8d4;
+}
+
+body.cosmic-blue .nome-ia {
+    background: #3b82f6;
+    color: #e0f2fe;
+}
+
+body.cosmic-blue .gallery-item {
+    background: #1e3a8a;
+}
+
+body.cosmic-blue .form-container {
+    background: rgba(30, 58, 138, 0.95);
+}
+
+body.cosmic-blue .form-container input[type="text"],
+body.cosmic-blue .form-container input[type="password"],
+body.cosmic-blue .form-container select,
+body.cosmic-blue .form-container textarea {
+    background: #3b82f6;
+    color: #e0f2fe;
+}
+
+body.cosmic-blue .form-container button,
+body.cosmic-blue .form-container input[type="submit"],
+body.cosmic-blue .form-container a.register-btn {
+    background: #a5b4fc;
+    color: #1e3a8a;
+}
+
+body.cosmic-blue .form-container button:hover,
+body.cosmic-blue .form-container input[type="submit"]:hover,
+body.cosmic-blue .form-container a.register-btn:hover {
+    background: #c7d2fe;
+}
+
+body.cosmic-blue .table-container table {
+    background: #1e3a8a;
+}
+
+body.cosmic-blue .table-container th {
+    background: #3b82f6;
+    color: #e0f2fe;
+}
+
+body.cosmic-blue .table-container td {
+    background: #0d1b2a;
+}
+
+body.cosmic-blue .action-btn.edit {
+    background: #a5b4fc;
+    color: #1e3a8a;
+}
+
+body.cosmic-blue .action-btn.edit:hover {
+    background: #c7d2fe;
+}
+
+body.cosmic-blue .action-btn.delete {
+    background: #f472b6;
+    color: #1e3a8a;
+}
+
+body.cosmic-blue .action-btn.delete:hover {
+    background: #f9a8d4;
+}
+
+body.forest-green {
+    background-color: #1b4332;
+    color: #a7f3d0;
+}
+
 body.forest-green .header {
     background: linear-gradient(90deg, #2d6a4f, #40916c);
 }
 
+body.forest-green .search-container {
+    background: rgba(45, 106, 79, 0.95);
+}
+
+body.forest-green .search-container input[type="text"],
+body.forest-green .search-container select {
+    background: #6b7280;
+    color: #e6f4ea;
+}
+
+body.forest-green .search-btn {
+    background: #a7f3d0;
+    color: #1b4332;
+}
+
+body.forest-green .search-btn:hover {
+    background: #d1fae5;
+}
+
+body.forest-green .clear-btn {
+    background: #4b5e40;
+    color: #a7f3d0;
+}
+
+body.forest-green .clear-btn:hover {
+    background: #6b7280;
+}
+
+body.forest-green .theme-selector {
+    background: #2d6a4f;
+    color: #a7f3d0;
+}
+
+body.forest-green .logout-btn {
+    background: #fb7185;
+    color: #1b4332;
+}
+
+body.forest-green .logout-btn:hover {
+    background: #f43f5e;
+}
+
+body.forest-green .nome-ia {
+    background: #40916c;
+    color: #e6f4ea;
+}
+
+body.forest-green .gallery-item {
+    background: #2d6a4f;
+}
+
+body.forest-green .form-container {
+    background: rgba(45, 106, 79, 0.95);
+}
+
+body.forest-green .form-container input[type="text"],
+body.forest-green .form-container input[type="password"],
+body.forest-green .form-container select,
+body.forest-green .form-container textarea {
+    background: #6b7280;
+    color: #e6f4ea;
+}
+
+body.forest-green .form-container button,
+body.forest-green .form-container input[type="submit"],
+body.forest-green .form-container a.register-btn {
+    background: #a7f3d0;
+    color: #1b4332;
+}
+
+body.forest-green .form-container button:hover,
+body.forest-green .form-container input[type="submit"]:hover,
+body.forest-green .form-container a.register-btn:hover {
+    background: #d1fae5;
+}
+
+body.forest-green .table-container table {
+    background: #2d6a4f;
+}
+
+body.forest-green .table-container th {
+    background: #40916c;
+    color: #e6f4ea;
+}
+
+body.forest-green .table-container td {
+    background: #1b4332;
+}
+
+body.forest-green .action-btn.edit {
+    background: #a7f3d0;
+    color: #1b4332;
+}
+
+body.forest-green .action-btn.edit:hover {
+    background: #d1fae5;
+}
+
+body.forest-green .action-btn.delete {
+    background: #fb7185;
+    color: #1b4332;
+}
+
+body.forest-green .action-btn.delete:hover {
+    background: #f43f5e;
+}
+
+/* Header */
 .header-wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between; /* Ajustado para mover o seletor para o lado */
     align-items: center;
     max-width: 1300px;
     margin: 0 auto;
     padding: 0 20px;
-    gap: 20px;
     text-align: center;
 }
 
 .header-branding {
-    width: 100%;
+    flex: 1;
+    text-align: left; /* Alinha o título à esquerda */
 }
 
 .header-title {
-    font-size: 3.5rem;
+    font-size: 2.5rem; /* Reduzido para melhor proporção */
     font-weight: 700;
     margin: 0;
     text-transform: uppercase;
@@ -88,39 +521,17 @@ body.forest-green .header {
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-body.light .header-title,
-body.light .header-subtitle {
-    color: #1e293b;
-}
-
-body.dark .header-title,
-body.dark .header-subtitle {
-    color: #e2e8f0;
-}
-
-body.cosmic-blue .header-title,
-body.cosmic-blue .header-subtitle {
-    color: #a5b4fc;
-}
-
-body.forest-green .header-title,
-body.forest-green .header-subtitle {
-    color: #a7f3d0;
-}
-
 .header-subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
-    margin-top: 8px;
+    margin-top: 5px;
     opacity: 0.9;
 }
 
 .header-actions {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 20px;
-    width: 100%;
+    gap: 15px;
 }
 
 .search-form {
@@ -139,22 +550,6 @@ body.forest-green .header-subtitle {
     transition: transform 0.3s ease;
 }
 
-body.light .search-container {
-    background: rgba(255, 255, 255, 0.95);
-}
-
-body.dark .search-container {
-    background: rgba(45, 55, 72, 0.95);
-}
-
-body.cosmic-blue .search-container {
-    background: rgba(30, 58, 138, 0.95);
-}
-
-body.forest-green .search-container {
-    background: rgba(45, 106, 79, 0.95);
-}
-
 .search-container:hover {
     transform: scale(1.02);
 }
@@ -170,30 +565,6 @@ body.forest-green .search-container {
     min-width: 200px;
 }
 
-body.light .search-container input[type="text"],
-body.light .search-container select {
-    background: #f8fafc;
-    color: #1e293b;
-}
-
-body.dark .search-container input[type="text"],
-body.dark .search-container select {
-    background: #4a5568;
-    color: #e2e8f0;
-}
-
-body.cosmic-blue .search-container input[type="text"],
-body.cosmic-blue .search-container select {
-    background: #3b82f6;
-    color: #e0f2fe;
-}
-
-body.forest-green .search-container input[type="text"],
-body.forest-green .search-container select {
-    background: #6b7280;
-    color: #e6f4ea;
-}
-
 .search-container input[type="text"]:focus,
 .search-container select:focus {
     outline: none;
@@ -204,14 +575,15 @@ body.forest-green .search-container select {
 .search-btn,
 .clear-btn,
 .logout-btn,
-.theme-selector {
+.theme-selector,
+.register-btn {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 24px;
+    padding: 10px 20px; /* Reduzido para suavizar */
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
@@ -219,49 +591,14 @@ body.forest-green .search-container select {
 .search-btn:hover,
 .clear-btn:hover,
 .logout-btn:hover,
-.theme-selector:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.theme-selector:hover,
+.register-btn:hover {
+    transform: translateY(-2px); /* Efeito mais suave */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 .search-btn {
     min-width: 150px;
-}
-
-body.light .search-btn {
-    background: #3b82f6;
-    color: #ffffff;
-}
-
-body.dark .search-btn {
-    background: #60a5fa;
-    color: #1e293b;
-}
-
-body.cosmic-blue .search-btn {
-    background: #a5b4fc;
-    color: #1e3a8a;
-}
-
-body.forest-green .search-btn {
-    background: #a7f3d0;
-    color: #1b4332;
-}
-
-body.light .search-btn:hover {
-    background: #2563eb;
-}
-
-body.dark .search-btn:hover {
-    background: #93c5fd;
-}
-
-body.cosmic-blue .search-btn:hover {
-    background: #c7d2fe;
-}
-
-body.forest-green .search-btn:hover {
-    background: #d1fae5;
 }
 
 .clear-btn {
@@ -269,116 +606,18 @@ body.forest-green .search-btn:hover {
     min-width: 150px;
 }
 
-body.light .clear-btn {
-    background: #a0aec0;
-    color: #ffffff;
-}
-
-body.dark .clear-btn {
-    background: #718096;
-    color: #e2e8f0;
-}
-
-body.cosmic-blue .clear-btn {
-    background: #6b7280;
-    color: #a5b4fc;
-}
-
-body.forest-green .clear-btn {
-    background: #4b5e40;
-    color: #a7f3d0;
-}
-
-body.light .clear-btn:hover {
-    background: #718096;
-}
-
-body.dark .clear-btn:hover {
-    background: #a0aec0;
-}
-
-body.cosmic-blue .clear-btn:hover {
-    background: #9ca3af;
-}
-
-body.forest-green .clear-btn:hover {
-    background: #6b7280;
-}
-
 .header-controls {
     display: flex;
     gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
 .theme-selector {
-    min-width: 180px;
-}
-
-body.light .theme-selector {
-    background: #e0f2fe;
-    color: #1e293b;
-}
-
-body.dark .theme-selector {
-    background: #4a5568;
-    color: #e2e8f0;
-}
-
-body.cosmic-blue .theme-selector {
-    background: #1e3a8a;
-    color: #a5b4fc;
-}
-
-body.forest-green .theme-selector {
-    background: #2d6a4f;
-    color: #a7f3d0;
-}
-
-.theme-selector:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    min-width: 160px;
 }
 
 .logout-btn {
-    min-width: 150px;
-}
-
-body.light .logout-btn {
-    background: #ef4444;
-    color: #ffffff;
-}
-
-body.dark .logout-btn {
-    background: #f87171;
-    color: #1e293b;
-}
-
-body.cosmic-blue .logout-btn {
-    background: #f472b6;
-    color: #1e3a8a;
-}
-
-body.forest-green .logout-btn {
-    background: #fb7185;
-    color: #1b4332;
-}
-
-body.light .logout-btn:hover {
-    background: #dc2626;
-}
-
-body.dark .logout-btn:hover {
-    background: #ef4444;
-}
-
-body.cosmic-blue .logout-btn:hover {
-    background: #f9a8d4;
-}
-
-body.forest-green .logout-btn:hover {
-    background: #f43f5e;
+    min-width: 120px;
 }
 
 .btn-icon {
@@ -388,9 +627,10 @@ body.forest-green .logout-btn:hover {
 
 /* Main content */
 .main-content {
-    padding: 20px;
+    padding: 100px 20px 20px; /* Ajustado para o header fixo */
     width: 100%;
     max-width: 1400px;
+    margin: 0 auto; /* Centraliza o conteúdo */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -500,11 +740,12 @@ body.forest-green .logout-btn:hover {
     background: #d1fae5;
     color: #065f46;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px; /* Bordas mais suaves */
     margin: 20px auto;
     text-align: center;
     max-width: 600px;
     width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
 }
 
 /* Galeria */
@@ -524,20 +765,6 @@ body.forest-green .logout-btn:hover {
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
-    max-width: 300px;
-}
-
-body.dark .gallery-item {
-    background: #2d3748;
-}
-
-body.cosmic-blue .gallery-item {
-    background: #1e3a8a;
-}
-
-body.forest-green .gallery-item {
-    background: #2d6a4f;
 }
 
 .gallery-item:hover {
@@ -619,57 +846,183 @@ body.forest-green .gallery-item {
     font-weight: 500;
 }
 
-body.light .nome-ia {
-    background: #1e293b;
-    color: #ffffff;
+/* Estilos para formulários (usado em login.php, adicionar.php, etc.) */
+.form-container {
+    max-width: 500px; /* Reduzido para um layout mais compacto */
+    width: 100%;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+    margin: 30px 0;
+    transition: transform 0.3s ease; /* Transição suave */
 }
 
-body.dark .nome-ia {
-    background: #4a5568;
-    color: #e2e8f0;
+.form-container:hover {
+    transform: translateY(-5px); /* Efeito de elevação suave */
 }
 
-body.cosmic-blue .nome-ia {
-    background: #3b82f6;
-    color: #e0f2fe;
+.form-container h2 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 600;
 }
 
-body.forest-green .nome-ia {
-    background: #40916c;
-    color: #e6f4ea;
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Aumentado para melhor espaçamento */
+}
+
+.form-container label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px; /* Espaço entre label e input */
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container select,
+.form-container textarea {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    width: 100%; /* Garante que os campos ocupem toda a largura */
+    box-sizing: border-box;
+}
+
+.form-container textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    transform: scale(1.01); /* Efeito mais suave */
+}
+
+.form-container button,
+.form-container input[type="submit"],
+.form-container a.register-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Estilo para o link "Não tem conta? Registrar" */
+.form-container .register-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: inherit;
+    opacity: 0.8;
+}
+
+/* Estilos para tabelas (usado em gerir_categorias.php, gerir_ias.php, gerir_pedidos.php) */
+.table-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 30px 0;
+    overflow-x: auto;
+}
+
+.table-container h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+    transition: transform 0.3s ease;
+}
+
+.table-container table:hover {
+    transform: translateY(-5px); /* Efeito de elevação suave */
+}
+
+.table-container th,
+.table-container td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.table-container th {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.table-container td {
+    font-size: 1rem;
+}
+
+.table-container tr:last-child td {
+    border-bottom: none;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
     .header-wrapper {
-        padding: 0 15px;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .header-branding {
+        text-align: center;
     }
 
     .header-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     .header-subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
-    .search-container {
-        flex-direction: column;
-    }
-
-    .search-container input[type="text"],
-    .search-container select {
+    .header-actions {
         width: 100%;
-        min-width: 0;
-        margin: 5px 0;
+        justify-content: center;
+        gap: 10px;
     }
 
-    .search-btn,
-    .clear-btn,
     .theme-selector,
     .logout-btn {
         width: 100%;
-        margin: 5px 0;
+        max-width: 200px;
     }
 
     .sidebar {
@@ -688,5 +1041,19 @@ body.forest-green .nome-ia {
 
     .logo-container {
         height: 180px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-container h2 {
+        font-size: 1.4rem;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 10px;
+        font-size: 0.9rem;
     }
 }
