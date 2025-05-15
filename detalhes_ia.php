@@ -1,19 +1,28 @@
 <?php
-session_start();
+// Inicia a sessão apenas se ainda não estiver ativa
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include 'conexao.php';
 
-// Verifica se o usuário está logado
+// Verifica se o utilizador está autenticado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: login.php");
     exit();
 }
 
 // Obtém o ID da IA a ser exibida
-$ia_id = $_GET['id'];
+$ia_id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
-// Consulta os detalhes da IA (com JOIN para categoria)
+// Verifica se o ID é válido
+if ($ia_id === false) {
+    echo "ID inválido.";
+    exit();
+}
+
+// Consulta os detalhes da IA
 $stmt = $conn->prepare("
-    SELECT ia.*, c.nome AS categoria_nome 
+    SELECT ia.*, c.nome AS categoria_nome
     FROM inteligencias_artificiais ia
     LEFT JOIN categorias c ON ia.categoria_id = c.id
     WHERE ia.id = :id
@@ -33,80 +42,42 @@ $is_editor = isset($_SESSION['is_editor']) && $_SESSION['is_editor'] == 1;
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Detalhes da IA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes de <?php echo htmlspecialchars($ia['nome']); ?></title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="styles.css">
-    <script>
-        function confirmarRemocao() {
-            return confirm("Tem certeza que deseja remover esta IA?");
-        }
-    </script>
 </head>
 <body>
     <div class="detalhes-container">
-        <h1><?php echo $ia['nome']; ?></h1>
+        <h1><?php echo htmlspecialchars($ia['nome']); ?></h1>
+        <p><strong>Categoria:</strong> <?php echo htmlspecialchars($ia['categoria_nome'] ?? 'Sem categoria'); ?></p>
+        <p><strong>Modelo:</strong> <?php echo htmlspecialchars($ia['modelo']); ?></p>
+        <p><strong>Comportamento:</strong> <?php echo htmlspecialchars($ia['comportamento']); ?></p>
+        <p><strong>Audiência:</strong> <?php echo htmlspecialchars($ia['audiencia']); ?></p>
+        <p><strong>Preço:</strong> €<?php echo number_format($ia['preco'], 2, ',', '.'); ?></p>
+        <p><strong>Descrição:</strong> <?php echo nl2br(htmlspecialchars($ia['descricao'])); ?></p>
 
         <?php if (!empty($ia['imagem_logotipo'])): ?>
-            <div class="logotipo-container">
-                <img src="<?php echo $ia['imagem_logotipo']; ?>" alt="Logotipo da IA" width="150">
-            </div>
+            <img src="<?php echo htmlspecialchars($ia['imagem_logotipo']); ?>" alt="Logotipo de <?php echo htmlspecialchars($ia['nome']); ?>">
         <?php endif; ?>
-
-        <div class="ia-detalhes">
-            <p><strong>Modelo:</strong> <?php echo $ia['modelo']; ?></p>
-            <p><strong>Categoria:</strong> 
-        <?php 
-            if (!empty($ia['categoria_nome'])) {
-                echo $ia['categoria_nome'];
-            } else {
-                echo "<em>Sem categoria definida</em>";
-            }
-        ?>
-    </p>
-            <p><strong>Comportamento:</strong> <?php echo $ia['comportamento']; ?></p>
-            <p><strong>Audiência:</strong> <?php echo $ia['audiencia']; ?></p>
-            <p><strong>Preço:</strong> <?php echo $ia['preco']; ?></p>
-            <p><strong>Descrição:</strong> <?php echo $ia['descricao']; ?></p>
-        </div>
-
-
-        <h2>Imagens da IA</h2>
-        <div class="ia-imagens">
-            <?php if (!empty($ia['imagem_login'])): ?>
-                <div class="imagem-container">
-                    <img src="<?php echo $ia['imagem_login']; ?>" alt="Imagem de Login">
-                    <p>Imagem de Login</p>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!empty($ia['imagem_interface'])): ?>
-                <div class="imagem-container">
-                    <img src="<?php echo $ia['imagem_interface']; ?>" alt="Imagem de Interface">
-                    <p>Imagem de Interface</p>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!empty($ia['imagem_resultados'])): ?>
-                <div class="imagem-container">
-                    <img src="<?php echo $ia['imagem_resultados']; ?>" alt="Imagem de Resultados">
-                    <p>Imagem de Resultados</p>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!empty($ia['imagem_historico'])): ?>
-                <div class="imagem-container">
-                    <img src="<?php echo $ia['imagem_historico']; ?>" alt="Imagem de Histórico">
-                    <p>Imagem de Histórico</p>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- Botões de Edição e Remoção (apenas para editores) -->
-        <?php if ($is_editor): ?>
-            <a href="editar.php?id=<?php echo $ia['id']; ?>" class="btn-editar">Editar IA</a>
-            <a href="excluir.php?id=<?php echo $ia['id']; ?>" class="btn-eliminar" onclick="return confirmarRemocao();">Remover IA</a>
+        <?php if (!empty($ia['imagem_login'])): ?>
+            <img src="<?php echo htmlspecialchars($ia['imagem_login']); ?>" alt="Tela de Login de <?php echo htmlspecialchars($ia['nome']); ?>">
+        <?php endif; ?>
+        <?php if (!empty($ia['imagem_interface'])): ?>
+            <img src="<?php echo htmlspecialchars($ia['imagem_interface']); ?>" alt="Interface de <?php echo htmlspecialchars($ia['nome']); ?>">
+        <?php endif; ?>
+        <?php if (!empty($ia['imagem_resultados'])): ?>
+            <img src="<?php echo htmlspecialchars($ia['imagem_resultados']); ?>" alt="Resultados de <?php echo htmlspecialchars($ia['nome']); ?>">
+        <?php endif; ?>
+        <?php if (!empty($ia['imagem_historico'])): ?>
+            <img src="<?php echo htmlspecialchars($ia['imagem_historico']); ?>" alt="Histórico de <?php echo htmlspecialchars($ia['nome']); ?>">
         <?php endif; ?>
 
         <a href="index.php" class="btn-voltar">Voltar</a>
+        <?php if ($is_editor): ?>
+            <a href="editar.php?id=<?php echo $ia['id']; ?>" class="btn-editar">Editar</a>
+            <a href="excluir.php?id=<?php echo $ia['id']; ?>" class="btn-eliminar" onclick="return confirm('Tem certeza que deseja eliminar esta IA?');">Eliminar</a>
+        <?php endif; ?>
     </div>
 </body>
-</html>z
+</html>

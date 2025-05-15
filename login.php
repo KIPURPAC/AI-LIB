@@ -1,68 +1,24 @@
-<link rel="stylesheet" href="styles.css">
 <?php
 session_start();
 include 'conexao.php';
 
-// Verifica se o usuário já excedeu o número máximo de tentativas
-if (!isset($_SESSION['tentativas_login'])) {
-    $_SESSION['tentativas_login'] = 0;
-}
-
-if ($_SESSION['tentativas_login'] >= 3) {
-    echo "Você excedeu o número máximo de tentativas. Tente novamente mais tarde.";
-    exit();
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $editor_key = $_POST['editor_key'] ?? ''; // Chave de editor fornecida pelo usuário
 
-    // Consulta o usuário no banco de dados
-    $stmt = $conn->prepare("SELECT * FROM utilizadores WHERE username = :username");
-    $stmt->execute(['username' => $username]);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password'])) {
-        // Verifica se a chave de editor foi fornecida e está correta
-        if (!empty($editor_key) && $editor_key === $user['chave_editor']) {
-            $_SESSION['is_editor'] = 1; // Usuário é um editor
-        } else {
-            $_SESSION['is_editor'] = 0; // Usuário não é um editor
-        }
-
-        $_SESSION['tentativas_login'] = 0; // Reseta o contador
         $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['is_editor'] = $user['is_editor'];
         header("Location: index.php");
         exit();
     } else {
-        // Senha incorreta
-        $_SESSION['tentativas_login']++; // Incrementa o contador
-        echo "Senha incorreta. Tentativas restantes: " . (3 - $_SESSION['tentativas_login']);
-    }
-}
-
-// Verifica se o usuário já solicitou uma chave de editor
-if (isset($_GET['username'])) {
-    $username = $_GET['username'];
-    $stmt = $conn->prepare("SELECT chave_solicitada FROM utilizadores WHERE username = :username");
-    $stmt->execute(['username' => $username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user && $user['chave_solicitada'] == 0) {
-        // Atualiza o status para "chave solicitada"
-        $stmt = $conn->prepare("UPDATE utilizadores SET chave_solicitada = 1 WHERE username = :username");
-        $stmt->execute(['username' => $username]);
-
-        // Abre o cliente de e-mail padrão com o pedido pré-preenchido
-        $email = 'anitamaxvinn22@gmail.com';
-        $subject = 'Pedido de Chave de Editor';
-        $body = "Olá,\n\nGostaria de solicitar uma chave de editor para a Biblioteca de IAs.\n\nNome de usuário: $username\n\nAtenciosamente,\n[Seu nome]";
-        header("Location: mailto:$email?subject=" . urlencode($subject) . "&body=" . urlencode($body));
-        exit();
-    } else {
-        echo "Você já solicitou uma chave de editor anteriormente.";
+        $erro = "Utilizador ou senha inválidos.";
     }
 }
 ?>
@@ -71,74 +27,83 @@ if (isset($_GET['username'])) {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <style>
-        .editor-field {
-            display: none; /* Oculta o campo por padrão */
-        }
-        .mostrar-senha {
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        .mensagem-suporte {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 10px;
-        }
-    </style>
-    <script>
-        function toggleEditorField() {
-            const editorField = document.getElementById('editor-field');
-            if (editorField.style.display === 'none') {
-                editorField.style.display = 'block'; // Mostra o campo
-            } else {
-                editorField.style.display = 'none'; // Oculta o campo
-            }
-        }
-
-        function toggleSenha() {
-            const senhaInput = document.getElementById('password');
-            const botaoMostrarSenha = document.getElementById('mostrar-senha');
-
-            if (senhaInput.type === "password") {
-                senhaInput.type = "text";
-                botaoMostrarSenha.textContent = "Ocultar Senha";
-            } else {
-                senhaInput.type = "password";
-                botaoMostrarSenha.textContent = "Mostrar Senha";
-            }
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Biblioteca de IAs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="POST">
-        <label for="username">Nome de usuário:</label>
-        <input type="text" id="username" name="username" required><br><br>
-
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="button" id="mostrar-senha" class="mostrar-senha" onclick="toggleSenha()">Mostrar Senha</button><br><br>
-
-        <!-- Botão para mostrar/ocultar o campo da chave de editor -->
-        <button type="button" onclick="toggleEditorField()">Sou um editor</button><br><br>
-
-        <!-- Campo para introduzir a chave de editor (oculto por padrão) -->
-        <div id="editor-field" class="editor-field">
-            <label for="editor_key">Chave de Editor:</label>
-            <input type="password" id="editor_key" name="editor_key"><br><br>
-
-            <!-- Mensagem sobre a chave não ser recuperável -->
-            <div class="mensagem-suporte">
-                <strong>Atenção:</strong> A chave de editor não é recuperável. Em caso de perda, entre em contato com o suporte:
-                <a href="mailto:anitamaxvinn22@gmail.com">Linha de suporte</a>.
+    <!-- Novo Header -->
+    <header class="header">
+        <div class="header-wrapper">
+            <!-- Título e Subtítulo -->
+            <div class="header-branding">
+                <h1 class="header-title">Biblioteca de IAs</h1>
+                <p class="header-subtitle">Explore o Futuro da Inteligência Artificial</p>
+            </div>
+            <!-- Seletor de Temas -->
+            <div class="header-actions">
+                <div class="header-controls">
+                    <select id="theme-selector" class="theme-selector">
+                        <option value="light">Tema Claro</option>
+                        <option value="dark">Tema Escuro</option>
+                        <option value="cosmic-blue">Azul Cósmico</option>
+                        <option value="forest-green">Verde Floresta</option>
+                    </select>
+                </div>
             </div>
         </div>
+    </header>
 
-        <!-- Botão de login (sempre visível) -->
-        <button type="submit">Entrar</button>
-    </form>
-    <br>
-    <a href="registrar.php">Não tem uma conta? Registre-se</a>
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+        <div class="form-container">
+            <h2>Login</h2>
+            <?php if (isset($erro)): ?>
+                <p style="color: #ef4444; text-align: center;"><?php echo htmlspecialchars($erro); ?></p>
+            <?php endif; ?>
+            <form method="POST" action="">
+                <label for="username">Utilizador:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <input type="submit" value="Entrar">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de temas
+        function applyTheme(theme) {
+            const body = document.body;
+            const validThemes = ['light', 'dark', 'cosmic-blue', 'forest-green'];
+
+            validThemes.forEach(t => body.classList.remove(t));
+            if (validThemes.includes(theme)) {
+                body.classList.add(theme);
+                localStorage.setItem('selectedTheme', theme);
+                console.log('Tema aplicado:', theme);
+            } else {
+                console.warn('Tema inválido:', theme);
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'light';
+            applyTheme(savedTheme);
+            document.getElementById('theme-selector').value = savedTheme;
+            console.log('Tema carregado:', savedTheme);
+        }
+
+        document.getElementById('theme-selector').addEventListener('change', function() {
+            const selectedTheme = this.value;
+            applyTheme(selectedTheme);
+            console.log('Tema selecionado:', selectedTheme);
+        });
+
+        window.onload = loadTheme;
+    </script>
 </body>
 </html>
