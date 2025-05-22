@@ -1,0 +1,148 @@
+/* Mobile-specific styles (max-width: 768px) */
+.header-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+.header-branding {
+    text-align: center;
+}
+
+.header-title {
+    font-size: 2rem; /* Reduced for mobile */
+}
+
+.header-subtitle {
+    font-size: 0.9rem;
+}
+
+.header-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+}
+
+.theme-selector,
+.logout-btn {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px 16px; /* Slightly smaller for mobile */
+    font-size: 0.9rem;
+}
+
+.sidebar {
+    width: 100%;
+    z-index: 1000; /* Corrected from 0,5 to 1000 */
+    padding: 20px 15px; /* Reduced padding for mobile */
+}
+
+.btn-categorias {
+    left: 15px;
+    top: 15px;
+    width: 40px; /* Smaller button for mobile */
+    height: 40px;
+}
+
+.btn-categorias::before {
+    font-size: 18px; /* Slightly smaller icon */
+}
+
+.gallery {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Optimized for mobile */
+    padding: 15px;
+    gap: 15px; /* Reduced gap */
+}
+
+.gallery-item {
+    max-width: 250px; /* Limit width for consistency */
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+}
+
+.logo-container {
+    height: 150px; /* Reduced for mobile */
+}
+
+.mini-descricao {
+    font-size: 0.85rem; /* Smaller font for mobile */
+    max-height: 4em;
+    line-height: 1.4em;
+}
+
+.saiba-mais {
+    padding: 5px 10px; /* Smaller button */
+    font-size: 0.9rem;
+}
+
+.nome-ia {
+    font-size: 1rem; /* Smaller font */
+    padding: 8px;
+}
+
+.form-container {
+    padding: 20px;
+    max-width: 100%; /* Full width on mobile */
+    margin: 20px 10px; /* Reduced margin */
+}
+
+.form-container h2 {
+    font-size: 1.4rem;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container select,
+.form-container textarea {
+    padding: 10px 12px; /* Slightly smaller inputs */
+    font-size: 0.95rem;
+}
+
+.form-container button,
+.form-container input[type="submit"],
+.form-container a.register-btn {
+    padding: 10px 20px; /* Smaller buttons */
+    font-size: 0.95rem;
+}
+
+.table-container {
+    margin: 20px 10px; /* Reduced margin */
+}
+
+.table-container th,
+.table-container td {
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+.table-container table {
+    font-size: 0.9rem;
+}
+
+.action-btn {
+    padding: 6px 12px; /* Smaller action buttons */
+    font-size: 0.9rem;
+}
+
+/* Theme-specific mobile adjustments */
+body.light .gallery-item {
+    background: #ffffff;
+}
+
+body.dark .gallery-item {
+    background: #2d3748;
+}
+
+body.cosmic-blue .gallery-item {
+    background: #1e3a8a;
+}
+
+body.forest-green .gallery-item {
+    background: #2d6a4f;
+}
+
+/* Ensure main-content has enough padding for fixed header */
+.main-content {
+    padding: 120px 15px 15px; /* Adjusted for mobile, increased top padding */
+}

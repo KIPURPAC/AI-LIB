@@ -212,7 +212,24 @@ function validarSenha($senha) {
         // Ação de solicitação de chave (exemplo simples)
         document.getElementById('requestEditorKey').addEventListener('click', function() {
             alert('Um e-mail de solicitação foi enviado. Aguarde a aprovação de um administrador.');
-            // Aqui poderias adicionar lógica para enviar um e-mail real (ex.: via PHPMailer)
+            <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editor_key_request'])) {
+    $nome = htmlspecialchars($_POST['full_name'] ?? '');
+    $username = htmlspecialchars($_POST['editor_username'] ?? '');
+
+    $to = 'anitamaxvinn22@gmail.com';
+    $subject = 'Pedido de Chave de Editor';
+    $message = "Olá, gostaria de solicitar uma chave de editor para a Biblioteca de IAs.\n\nNome completo: $nome\nNome de usuário: $username\n\nAtenciosamente,\n$nome";
+    $headers = 'From: no-reply@seudominio.com' . "\r\n";
+
+    if (mail($to, $subject, $message, $headers)) {
+        echo 'success';
+    } else {
+        echo 'error';
+    }
+    exit;
+}
+?>
         });
 
         window.onload = loadTheme;

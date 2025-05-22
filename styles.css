@@ -1,15 +1,11 @@
-/* Estilos gerais */
+/* Estilos gerais (compartilhados por mobile e PC) */
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Ajuste para evitar que o body force o conteúdo ao centro vertical */
-body {
-    display: block; /* Removido o flex para o header ficar no topo */
+    display: block; 
     min-height: 100vh;
 }
 
@@ -22,13 +18,13 @@ body {
 /* Header */
 .header {
     width: 100%;
-    padding: 20px 0; /* Reduzido o padding para menos espaço */
+    padding: 20px 0;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     animation: fadeIn 0.5s ease-in;
-    position: fixed; /* Fixa o header no topo */
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 1; 
 }
 
 /* Temas */
@@ -499,7 +495,7 @@ body.forest-green .action-btn.delete:hover {
 /* Header */
 .header-wrapper {
     display: flex;
-    justify-content: space-between; /* Ajustado para mover o seletor para o lado */
+    justify-content: space-between;
     align-items: center;
     max-width: 1300px;
     margin: 0 auto;
@@ -509,11 +505,11 @@ body.forest-green .action-btn.delete:hover {
 
 .header-branding {
     flex: 1;
-    text-align: left; /* Alinha o título à esquerda */
+    text-align: left;
 }
 
 .header-title {
-    font-size: 2.5rem; /* Reduzido para melhor proporção */
+    font-size: 2.5rem;
     font-weight: 700;
     margin: 0;
     text-transform: uppercase;
@@ -580,7 +576,7 @@ body.forest-green .action-btn.delete:hover {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px; /* Reduzido para suavizar */
+    padding: 10px 20px;
     border: none;
     border-radius: 8px;
     font-size: 0.95rem;
@@ -593,7 +589,7 @@ body.forest-green .action-btn.delete:hover {
 .logout-btn:hover,
 .theme-selector:hover,
 .register-btn:hover {
-    transform: translateY(-2px); /* Efeito mais suave */
+    transform: translateY(-2px);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -627,14 +623,15 @@ body.forest-green .action-btn.delete:hover {
 
 /* Main content */
 .main-content {
-    padding: 100px 20px 20px; /* Ajustado para o header fixo */
+    padding: 150px 20px 20px; /* Increased top padding for PC */
     width: 100%;
     max-width: 1400px;
-    margin: 0 auto; /* Centraliza o conteúdo */
+    margin: 0 auto;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 100px;
 }
 
 /* Sidebar */
@@ -647,10 +644,10 @@ body.forest-green .action-btn.delete:hover {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index:1000;
     transform: translateX(-100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
 }
 
@@ -697,7 +694,7 @@ body.forest-green .action-btn.delete:hover {
 }
 
 .sidebar ul li a:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Botão de categorias */
@@ -717,7 +714,7 @@ body.forest-green .action-btn.delete:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
 
@@ -740,20 +737,20 @@ body.forest-green .action-btn.delete:hover {
     background: #d1fae5;
     color: #065f46;
     padding: 10px;
-    border-radius: 8px; /* Bordas mais suaves */
+    border-radius: 8px;
     margin: 20px auto;
     text-align: center;
     max-width: 600px;
     width: 100%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Galeria */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Optimized for PC */
+    gap: 20px;
+    padding: 20px;
     max-width: 1400px;
     width: 100%;
     justify-items: center;
@@ -761,21 +758,23 @@ body.forest-green .action-btn.delete:hover {
 
 .gallery-item {
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 300px;
 }
 
 .gallery-item:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .logo-container {
     position: relative;
     width: 100%;
-    height: 220px;
+    height: 180px; /* Adjusted for better proportion */
     overflow: hidden;
     background: #e2e8f0;
 }
@@ -789,7 +788,7 @@ body.forest-green .action-btn.delete:hover {
 
 .logo-container img:hover {
     opacity: 0.8;
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .overlay {
@@ -798,7 +797,7 @@ body.forest-green .action-btn.delete:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%);
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -806,7 +805,7 @@ body.forest-green .action-btn.delete:hover {
     align-items: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-    padding: 15px;
+    padding: 10px;
 }
 
 .gallery-item:hover .overlay {
@@ -814,12 +813,12 @@ body.forest-green .action-btn.delete:hover {
 }
 
 .mini-descricao {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     text-align: center;
-    line-height: 1.5em;
-    max-height: 4.5em;
+    line-height: 1.4em;
+    max-height: 4.2em;
     overflow: hidden;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-weight: 300;
 }
 
@@ -827,9 +826,9 @@ body.forest-green .action-btn.delete:hover {
     color: #22d3ee;
     text-decoration: none;
     font-weight: 600;
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.85);
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
@@ -839,26 +838,26 @@ body.forest-green .action-btn.delete:hover {
 }
 
 .nome-ia {
-    padding: 12px;
-    font-size: 1.2rem;
+    padding: 10px;
+    font-size: 1.1rem;
     text-align: center;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 12px 12px;
     font-weight: 500;
 }
 
-/* Estilos para formulários (usado em login.php, adicionar.php, etc.) */
+/* Estilos para formulários */
 .form-container {
-    max-width: 500px; /* Reduzido para um layout mais compacto */
+    max-width: 500px;
     width: 100%;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
     margin: 30px 0;
-    transition: transform 0.3s ease; /* Transição suave */
+    transition: transform 0.3s ease;
 }
 
 .form-container:hover {
-    transform: translateY(-5px); /* Efeito de elevação suave */
+    transform: translateY(-5px);
 }
 
 .form-container h2 {
@@ -871,13 +870,13 @@ body.forest-green .action-btn.delete:hover {
 .form-container form {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Aumentado para melhor espaçamento */
+    gap: 20px;
 }
 
 .form-container label {
     font-size: 1rem;
     font-weight: 500;
-    margin-bottom: 5px; /* Espaço entre label e input */
+    margin-bottom: 5px;
 }
 
 .form-container input[type="text"],
@@ -889,7 +888,7 @@ body.forest-green .action-btn.delete:hover {
     border-radius: 8px;
     font-size: 1rem;
     transition: box-shadow 0.3s ease, transform 0.2s ease;
-    width: 100%; /* Garante que os campos ocupem toda a largura */
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -904,7 +903,7 @@ body.forest-green .action-btn.delete:hover {
 .form-container textarea:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-    transform: scale(1.01); /* Efeito mais suave */
+    transform: scale(1.01);
 }
 
 .form-container button,
@@ -918,142 +917,4 @@ body.forest-green .action-btn.delete:hover {
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     text-decoration: none;
     text-align: center;
-}
-
-/* Estilo para o link "Não tem conta? Registrar" */
-.form-container .register-link {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 0.95rem;
-    color: inherit;
-    opacity: 0.8;
-}
-
-/* Estilos para tabelas (usado em gerir_categorias.php, gerir_ias.php, gerir_pedidos.php) */
-.table-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 30px 0;
-    overflow-x: auto;
-}
-
-.table-container h2 {
-    font-size: 1.6rem;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 600;
-}
-
-.table-container table {
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
-    transition: transform 0.3s ease;
-}
-
-.table-container table:hover {
-    transform: translateY(-5px); /* Efeito de elevação suave */
-}
-
-.table-container th,
-.table-container td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.table-container th {
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-.table-container td {
-    font-size: 1rem;
-}
-
-.table-container tr:last-child td {
-    border-bottom: none;
-}
-
-.action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.action-btn:hover {
-    transform: translateY(-2px);
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .header-wrapper {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-        padding: 15px;
-    }
-
-    .header-branding {
-        text-align: center;
-    }
-
-    .header-title {
-        font-size: 2rem;
-    }
-
-    .header-subtitle {
-        font-size: 0.9rem;
-    }
-
-    .header-actions {
-        width: 100%;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .theme-selector,
-    .logout-btn {
-        width: 100%;
-        max-width: 200px;
-    }
-
-    .sidebar {
-        width: 100%;
-    }
-
-    .btn-categorias {
-        left: 15px;
-        top: 15px;
-    }
-
-    .gallery {
-        grid-template-columns: 1fr;
-        padding: 15px;
-    }
-
-    .logo-container {
-        height: 180px;
-    }
-
-    .form-container {
-        padding: 20px;
-    }
-
-    .form-container h2 {
-        font-size: 1.4rem;
-    }
-
-    .table-container th,
-    .table-container td {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
 }
