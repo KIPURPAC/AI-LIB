@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
     $is_editor = isset($_POST['is_editor']) && $_POST['is_editor'] === 'on';
-    $editor_key = trim($_POST['editor_key'] ?? '');
 
     // Validação do nome de utilizador
     if (empty($username)) {
@@ -37,13 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->rowCount() > 0) {
                 $erro = "Nome de usuário já existe! Escolha outro.";
             } else {
-                // Verifica se a chave de editor foi fornecida e está correta (simplificado)
+                // Se for editor, apenas marca como editor sem chave
                 $chave_editor = null;
-                if ($is_editor && !empty($editor_key)) {
-                    // Aqui poderias adicionar uma verificação contra chaves válidas no futuro
+                if ($is_editor) {
                     $chave_editor = bin2hex(random_bytes(16)); // Gera uma chave única
-                } elseif ($is_editor && empty($editor_key)) {
-                    $erro = "Para se registrar como editor, forneça uma chave de editor válida ou solicite uma.";
                 }
 
                 if (empty($erro)) {
@@ -127,7 +123,7 @@ function validarSenha($senha) {
             <form method="POST" action="">
                 <label for="username">Nome de usuário:</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required>
-                <p label for="password">Senha:</label>
+                <label for="password">Senha:</label>
                 <div style="position: relative;">
                     <input type="password" id="password" name="password" required>
                     <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; cursor: pointer;">
@@ -148,9 +144,7 @@ function validarSenha($senha) {
                 </div>
 
                 <div id="editor-key-section" style="display: none; margin-bottom: 15px;">
-                    <label for="editor_key">Chave de Editor:</label>
-                    <input type="text" id="editor_key" name="editor_key" placeholder="Insira a chave de editor">
-                    <p>Para obter uma chave de editor, clique no botão abaixo para enviar um e-mail de solicitação.</p>
+                    <p>Para se registrar como editor, clique no botão abaixo para enviar um e-mail de solicitação.</p>
                     <p><strong>Exemplo de e-mail:</strong></p>
                     <p>Assunto: Pedido de Chave de Editor<br>
                     Corpo: Olá, gostaria de solicitar uma chave de editor para a Biblioteca de IAs. Meu nome de usuário é [Insira seu nome de utilizador aqui]. Atenciosamente, [Seu nome].</p>
@@ -209,27 +203,12 @@ function validarSenha($senha) {
             editorKeySection.style.display = this.checked ? 'block' : 'none';
         });
 
-        // Ação de solicitação de chave (exemplo simples)
+        // Ação de solicitação de chave
         document.getElementById('requestEditorKey').addEventListener('click', function() {
-            alert('Um e-mail de solicitação foi enviado. Aguarde a aprovação de um administrador.');
-            <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editor_key_request'])) {
-    $nome = htmlspecialchars($_POST['full_name'] ?? '');
-    $username = htmlspecialchars($_POST['editor_username'] ?? '');
-
-    $to = 'anitamaxvinn22@gmail.com';
-    $subject = 'Pedido de Chave de Editor';
-    $message = "Olá, gostaria de solicitar uma chave de editor para a Biblioteca de IAs.\n\nNome completo: $nome\nNome de usuário: $username\n\nAtenciosamente,\n$nome";
-    $headers = 'From: no-reply@seudominio.com' . "\r\n";
-
-    if (mail($to, $subject, $message, $headers)) {
-        echo 'success';
-    } else {
-        echo 'error';
-    }
-    exit;
-}
-?>
+            const username = document.getElementById('username').value || '[Insira seu nome de utilizador aqui]';
+            const subject = encodeURIComponent('Pedido de Chave de Editor');
+            const body = encodeURIComponent(`Olá, gostaria de solicitar uma chave de editor para a Biblioteca de IAs.\n\nNome de usuário: ${username}\n\nAtenciosamente,\n[Seu nome]`);
+            window.location.href = `mailto:anitamaxvinn22@gmail.com?subject=${subject}&body=${body}`;
         });
 
         window.onload = loadTheme;
